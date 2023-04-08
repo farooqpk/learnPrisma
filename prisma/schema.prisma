@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+//its a User collection or User table
+model User {
+  // if we using sql or somthing we can define id like -> id string @default(uuid())  ,and below id is for mongodb
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  firstName  String
+  lastName   String
+  age        Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  houseOwned House[]  @relation("houseOwner")
+  houseBuilt House[]  @relation("houseBuilder")
+}
+
+model House {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  address      String   @unique
+  wifiPassword String? //its optional
+  owner        User     @relation("houseOwner", fields: [ownerId], references: [id])
+  ownerId      String   @db.ObjectId
+  builtBy      User     @relation("houseBuilder", fields: [builtById], references: [id])
+  builtById    String   @db.ObjectId
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

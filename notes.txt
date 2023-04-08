@@ -1,0 +1,13 @@
+> npm install prisma
+
+> npm install @prisma/client 
+
+> npx prisma init
+
+> after defining schema run -> npx prisma generate
+
+> to show changes in our database for relational db ->  npx prisma migrate dev --name init --create-only
+then add this command ->  npx prima migrate deploy
+and  for mongodb -> npx prisma db push
+
+> we can also relation with multiple collection or table so either we can do manualy or we can run -> npx prisma format
